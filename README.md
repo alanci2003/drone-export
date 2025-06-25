@@ -1,6 +1,52 @@
-# Drone Export Dashboard
+# Drone Export Analytics
 
-This project provides a simple Gradio interface for processing drone export data. Upload a raw CSV file encoded in Big5 and the app will preprocess the data, generate six visualizations, and allow you to download the resulting files.
+This project processes, visualizes, and explores Taiwan’s drone export data using a clean and modular Python stack.
+
+---
+
+## 🗂 Project Structure
+
+drone-export/
+├── app.py # Gradio app for interactive charts
+├── preprocess_drone_exports.py # Step 2: Clean and transform raw CSV
+├── plot_01_to_06.py # Step 3: Generates 6 export data plots
+├── assets/ # Output folder for cleaned CSVs and images
+├── sample_raw.csv # Example Big5-encoded export CSV
+├── requirements.txt
+└── README.md
+
+---
+
+## ✅ Step-by-Step Workflow
+
+### ✅ Step 1: Place Raw Data
+
+Save your Big5-encoded CSV from Taiwan Customs (e.g., `sample_raw.csv`) in the project root.
+
+### ✅ Step 2: Clean the Data
+
+```bash
+python preprocess_drone_exports.py
+```
+
+This command:
+- Translates `國家` (country) column to English using deep-translator.
+- Converts 民國年 (ROC calendar) dates to Gregorian.
+- Converts export values (`美元(千元)`) to full USD.
+- Adds `yyyy/mm` and `qtr` fields.
+- Saves the cleaned UTF‑8 CSV under `assets/`.
+
+The output file will be named `assets/Drone_export_cleaned_YYYYMMDD.csv`.
+
+### ✅ Step 3: Launch the Dashboard
+
+Run the Gradio app to visualize and download plots:
+
+```bash
+python app.py
+```
+
+---
 
 ## 📦 Features
 - Upload Big5-encoded customs data
@@ -9,13 +55,6 @@ This project provides a simple Gradio interface for processing drone export data
 - Scale export value from thousands of USD to actual amount
 - Group low-volume countries as ``Other`` for readability
 - Download the cleaned CSV and all generated charts
-
-Run the application with:
-
-```bash
-pip install -r requirements.txt
-python app.py
-```
 
 ## 📊 Visualizations
 This app automatically generates six types of drone export visualizations:
@@ -54,8 +93,9 @@ python app.py
 ```
 
 ## Dependencies
-- gradio
+- gradio>=4.0
 - pandas
 - matplotlib
 - numpy
-- googletrans==4.0.0-rc1
+- pydantic<2.0
+- deep-translator

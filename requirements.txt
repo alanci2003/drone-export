@@ -1,5 +1,6 @@
-googletrans==4.0.0-rc1
-gradio
+deep-translator
+gradio>=4.0
 pandas
 matplotlib
 numpy
+pydantic<2.0
