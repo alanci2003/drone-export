@@ -50,7 +50,7 @@ def process_file(file):
 
 
 with gr.Blocks() as app:
-    gr.Markdown("# Drone Export Dashboard")
+    gr.Markdown("# Drone Export Analytics")
     with gr.Row():
         uploader = gr.File(label="Upload raw CSV")
         process_btn = gr.Button("Process")

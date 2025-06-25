@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-import os
 from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
-from googletrans import Translator
+from deep_translator import GoogleTranslator
 
 
 def clean_data(input_path: str | Path, output_dir: str | Path = "assets") -> Path:
@@ -29,11 +28,11 @@ def clean_data(input_path: str | Path, output_dir: str | Path = "assets") -> Pat
     # Step 1: Read CSV with Big5 encoding
     df = pd.read_csv(input_path, encoding="big5")
 
-    # Step 2: Auto-translate country names using Google Translate
-    translator = Translator()
+    # Step 2: Translate country names using Deep Translator
+    translator = GoogleTranslator(source="auto", target="en")
     unique_countries = df["國家"].unique()
     translated_countries = {
-        tw: translator.translate(tw, src="zh-TW", dest="en").text
+        tw: translator.translate(tw)
         for tw in unique_countries
     }
     df["country"] = df["國家"].map(translated_countries)
